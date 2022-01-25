@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    # TODO: Change for deploy
+    # BEFOREDEPLOY: Change for deploy
     origins 'http://localhost:3000'
 
     resource '*',
