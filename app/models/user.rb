@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   before_save :normalize_names, :set_username
-  validates :email, uniqueness: { case_sensitive: false }
+  validates :email, uniqueness: { case_sensitive: false }, format: {with: /\A(.+)@(.+)\.(.+)\z/}
 
   def full_name
     self.first_name + " " + self.last_name
