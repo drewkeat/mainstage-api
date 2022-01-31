@@ -8,9 +8,7 @@ class AuthController < ApplicationController
       render json: UserSerializer.new(@user),
       status: :accepted
     else
-      render json: {
-        message: 'Invalid login credentials'
-      },
+      render json: ['Invalid login credentials'],
       status: :unauthorized
     end
   end
