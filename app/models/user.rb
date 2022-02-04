@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  has_many :productions_managers, foreign_key: :manager_id
+  has_many :managed_productions, through: :productions_managers, source: :managed_production
+
   has_secure_password
   before_save :normalize_names, :set_username
   validates :email, uniqueness: { case_sensitive: false }, format: {with: /\A(.+)@(.+)\.(.+)\z/}
