@@ -25,26 +25,30 @@ Things you may want to cover:
 
 # NOTES
 TODO: Build remaining resources and relationships
-- User (.applications, .managed_productions, .productions, .roles)
-  - has_many :productions_managers, foreign_key: :production_manager_id
-  - has_many :managed_productions, through: :productions_managers
+- User (.managed_productions, .roles, .productions, .applications)
+  - has_many :productions_managers, foreign_key: :manager_id
+  - has_many :managed_productions, through: :productions_managers, source: :managed_production
+  - has_many :roles
   - has_many :productions, through: :roles
-  - has_many :roles
   - has_many :applications
-- Application (.user, .role)
+- Application (.user, .role, .production)
   - belongs_to :user
-  - belongs_to :role
-- Role (.applications, .production, .company_member )
-  - has_many :applications
   - belongs_to :production
-  - belongs_to :company_member, class_name: "User"
-- Production (.roles, .production_managers, .company_members)
-  - has_many :roles
+  - belongs_to :role
+- Role (.production, .user, .applications, .applicants)
+  - belongs_to :production
+  - belongs_to :user, optional: true
+  - has_many :applications
+  - has_many :applicants, through: :applications, source: :user
+- Production (.managers, .roles, .company_members, .applications, .applicants)
   - has_many :productions_managers, foreign_key: :managed_production_id
-  - has_many :production_managers, through: :productions_managers
-  - has_many :company_members, through: :roles
-- Productions_Managers
+  - has_many :managers, through: :productions_managers, source: :manager
+  - has_many :roles
+  - has_many :company_members, through: :roles, source: :user
+  - has_many :applications
+  - has_many :applicants, through: :applications, source: :user
+- Productions_Managers (.manager, .managed_production)
+  - belongs_to :manager, class_name: "User"
   - belongs_to :managed_production, class_name: "Production"
-  - belongs_to :production_manager, class_name: "User"
 - Rehearsal
 - Schedulable

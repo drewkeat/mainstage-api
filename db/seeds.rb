@@ -6,10 +6,17 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user = User.create(
+user1 = User.create(
   first_name: "test",
   last_name: "dummy",
   email: "testdummy@email.com",
+  password: "password"
+)
+
+user2 = User.create(
+  first_name: "other",
+  last_name: "dummy",
+  email: "otherdummy@email.com",
   password: "password"
 )
 
@@ -75,7 +82,10 @@ role_names = ["Actor",
   "Wardrobe Manager"
 ]
 
-Role.create(
+3.times do 
+  Role.create(
   name: role_names.sample,
-  role_type: role_types.sample
-)
+  role_type: role_types.sample,
+  production_id: production.id
+  )
+end
