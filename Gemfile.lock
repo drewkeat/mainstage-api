@@ -71,6 +71,7 @@ GEM
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    humanize (2.5.1)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     jsonapi-serializer (2.2.0)
@@ -91,6 +92,8 @@ GEM
     msgpack (1.4.2)
     nio4r (2.5.8)
     nokogiri (1.13.0-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.0-x86_64-linux)
       racc (~> 1.4)
     pg (1.2.3)
     puma (5.5.2)
@@ -149,11 +152,13 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.4)
   byebug
+  humanize (~> 2.5)
   jsonapi-serializer (~> 2.2)
   jwt (~> 2.3)
   listen (~> 3.3)
