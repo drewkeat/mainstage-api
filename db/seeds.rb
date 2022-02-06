@@ -6,86 +6,104 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user1 = User.create(
-  first_name: "test",
-  last_name: "dummy",
-  email: "testdummy@email.com",
-  password: "password"
-)
+role_types = {
+  "Performer": [
+    "Actor",
+    "Dancer",
+    "Musician",
+  ],
+  "Crew": [
+    "Assistant Stage Manager",
+    "Carpenter",
+    "Costume Designer",
+    "Crew Chief",
+    "Dramaturge",
+    "Dresser",
+    "Electrician",
+    "Fly Crew",
+    "Light Board Operator",
+    "Lighting Designer",
+    "Lighting Technician",
+    "Master Carpenter",
+    "Master Electrician",
+    "Paint Crew",
+    "Property Master",
+    "Scenic Artist",
+    "Scenic Designer",
+    "Set Designer",
+    "Sound Designer",
+    "Sound Engineer",
+    "Sound Technician",
+    "Spotlight Operator",
+    "Stage Crew",
+    "Stage Manager",
+    "Wardrobe Crew",
+  ],
+  "Operations": [
+    "Artistic Director",
+    "Choreographer",
+    "Company Manager",
+    "Composer",
+    "Director",
+    "House Manager",
+    "Janitor",
+    "Marketing Director",
+    "Music Director",
+    "Playbill Writer",
+    "Playwright",
+    "Producer",
+    "Production Manager",
+    "Technical Director",
+    "Ticketing Agent",
+    "Usher",
+  ],
+}
 
-user2 = User.create(
-  first_name: "other",
-  last_name: "dummy",
-  email: "otherdummy@email.com",
-  password: "password"
-)
+def build_users(low_num, high_num)
+  for num in low_num..high_num do
+    fname = "dummy"
+    lname = num.humanize
+    User.create(
+      first_name: fname,
+      last_name: lname,
+      email: fname+lname+"@email.com",
+      password: "pass"
+    )
+  end
+end
 
-production = Production.create(
-  name: "First Production"
-)
+build_users(1,3)
 
-role_types = ["Performer", "Crew", "Operations"]
-role_names = ["Actor",
-  "Dancer",
-  "Musician",
-  "Artistic Director",
-  "Assistant Stage Manager",
-  "Carpenter",
-  "Charge Artist",
-  "Choreographer",
-  "Company Manager",
-  "Composer",
-  "Costume Designer",
-  "Costume Director",
-  "Crew Chief",
-  "Director",
-  "Director of Audience Services",
-  "Director of Development",
-  "Director of Public Relations",
-  "Director of Special Events",
-  "Dramaturge",
-  "Dresser",
-  "Electrician",
-  "Fly Crew",
-  "House Manager",
-  "Janitor",
-  "Light Board Operator",
-  "Lighting Designer",
-  "Lighting Technician",
-  "Literary Manager",
-  "Marketing Director",
-  "Master Carpenter",
-  "Master Electrician",
-  "Music Director",
-  "Paint Crew",
-  "Playbill Writer",
-  "Playwright",
-  "Producer",
-  "Production Manager",
-  "Property Master",
-  "Publicist",
-  "Scenic Artist",
-  "Scenic Designer",
-  "Set Designer",
-  "Sound Designer",
-  "Sound Engineer",
-  "Sound Technician",
-  "Spotlight Operator",
-  "Stage Crew",
-  "Stage Hand",
-  "Stage Manager",
-  "Technical Director",
-  "Theater Manager",
-  "Ticketing Agent",
-  "Usher",
-  "Wardrobe Crew",
-  "Wardrobe Manager"
-]
-
-3.times do 
-  Role.create(
-  name: role_names.sample,
-  role_type: role_types.sample,
-  production_id: production.id
+User.all.each do |user|
+  production = Production.create(
+    name: "Production " + user.last_name
   )
+
+  10.times do
+    role_type = role_types.keys.sample
+    role_name = role_types[role_type].sample
+    role = Role.create(
+      name: role_name,
+      role_type: role_type,
+      production_id: production.id
+    )
+    production.roles << role
+    production.save
+  end
+  
+  user.managed_productions << production
+  user.save
+end
+
+low = User.all.length
+high = low*2
+
+build_users(low+1, high)
+
+for num in low+1..high do
+  user = User.find(num)
+  3.times do
+    role = Production.all.sample.roles.sample
+    user.apply(role)
+  end
 end
