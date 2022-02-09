@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_many :managed_productions, through: :productions_managers, source: :managed_production
   has_many :roles
   has_many :productions, through: :roles
-  has_many :applications
+  has_many :applications, dependent: :destroy
 
   has_secure_password
   before_save :normalize_names, :set_username
