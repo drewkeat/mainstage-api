@@ -1,5 +1,7 @@
 class AuthController < ApplicationController
+  before_action :set_user, only:[:authenticate]
   skip_before_action :authorized, only: [:create]
+  
   def create
     @user = User.find_by(email: user_login_params[:email])
     if @user && @user.authenticate(user_login_params[:password])
@@ -13,7 +15,15 @@ class AuthController < ApplicationController
     end
   end
 
+  def authenticate
+    render json: UserSerializer.new(@user), status: :accepted
+  end
+
   private
+
+  def set_user
+    @user = current_user 
+  end
 
   def user_login_params
     params.require(:user).permit(:email, :password)
