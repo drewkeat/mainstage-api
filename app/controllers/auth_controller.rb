@@ -7,7 +7,10 @@ class AuthController < ApplicationController
     if @user && @user.authenticate(user_login_params[:password])
       token = encode_token({ user_id: @user.id })
       response.headers["jwt"] = token
-      render json: UserSerializer.new(@user),
+      @options = {
+        include: ["managed_productions", "productions", "roles", "applications"]
+      }
+      render json: UserSerializer.new(@user, @options),
       status: :accepted
     else
       render json: ['Invalid login credentials'],
@@ -16,7 +19,10 @@ class AuthController < ApplicationController
   end
 
   def authenticate
-    render json: UserSerializer.new(@user), status: :accepted
+    @options = {
+      include: ["managed_productions", "productions", "roles", "applications"]
+    }
+    render json: UserSerializer.new(@user, @options), status: :accepted
   end
 
   private
