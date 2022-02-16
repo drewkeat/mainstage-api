@@ -11,7 +11,13 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: UserSerializer.new(@user)
+    # QUESTION: This seems unsafe...
+    @options = {
+      include: params[:include]
+    }
+    
+    # byebug
+    render json: UserSerializer.new(@user, @options)
   end
 
   # POST /users
