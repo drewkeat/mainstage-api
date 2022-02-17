@@ -15,8 +15,6 @@ class UsersController < ApplicationController
     @options = {
       include: params[:include]
     }
-    
-    # byebug
     render json: UserSerializer.new(@user, @options)
   end
 

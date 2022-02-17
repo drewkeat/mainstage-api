@@ -10,7 +10,7 @@ class ProductionsController < ApplicationController
 
   # GET /productions/1
   def show
-    render json: @production
+    render json: ProductionSerializer.new(@production)
   end
 
   # POST /productions

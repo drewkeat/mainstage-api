@@ -10,7 +10,6 @@ class AuthController < ApplicationController
       @options = {
         include: ["managed_productions", "productions", "roles", "applications"]
       }
-      byebug
       render json: UserSerializer.new(@user, @options),
       status: :accepted
       # byebug
