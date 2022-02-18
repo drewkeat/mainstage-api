@@ -5,12 +5,12 @@ class RolesController < ApplicationController
   def index
     @roles = Role.all
 
-    render json: @roles
+    render json: RoleSerializer.new(@roles)
   end
 
   # GET /roles/1
   def show
-    render json: @role
+    render json: RoleSerializer.new(@role)
   end
 
   # POST /roles
@@ -46,6 +46,6 @@ class RolesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def role_params
-      params.require(:role).permit(:production_id, :user_id, :name, :type)
+      params.require(:role).permit(:production_id, :user_id, :name, :role_type)
     end
 end

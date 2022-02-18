@@ -5,12 +5,12 @@ class ApplicationsController < ApplicationController
   def index
     @applications = Application.all
 
-    render json: @applications
+    render json: ApplicationSerializer.new(@applications)
   end
 
   # GET /applications/1
   def show
-    render json: @application
+    render json: ApplicationSerializer.new(@application)
   end
 
   # POST /applications
