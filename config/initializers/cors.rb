@@ -8,8 +8,8 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     # BEFOREDEPLOY: Change for deploy
-    origins '*'
-    # origins 'http://themainstage.netlify.app'
+    # origins '*'
+    origins 'https://themainstage.netlify.app'
 
     resource '*',
       expose: ["jwt"],

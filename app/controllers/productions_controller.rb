@@ -5,7 +5,7 @@ class ProductionsController < ApplicationController
   def index
     @productions = Production.all
 
-    render json: @productions
+    render json: ProductionSerializer.new(@productions)
   end
 
   # GET /productions/1
